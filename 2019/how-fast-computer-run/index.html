@@ -11,7 +11,7 @@
 
     <title>
         
-          home - Snriud
+          how-fast-computer-run - Snriud
         
     </title>
 
@@ -133,12 +133,12 @@ show_sidebar()
 </div>
 
 <div class="book-post">
-  <h2 id="Snriud’s-Blog"><a href="#Snriud’s-Blog" class="headerlink" title="Snriud’s Blog"></a>Snriud’s Blog</h2><p>Recent Posts:</p>
-<ul>
-<li><a href="/2019/how-fast-computer-run">计算机中的各部件运行有多快？</a></li>
-<li><a href="/2019/how-to-improve-your-skills-as-a-chassis-engineer">车辆工程刚出来工资很低，应当如何提高自己？</a></li>
-<li><a href="/2019/system-calls">Linux 系统调用</a></li>
-</ul>
+  <h2 id="计算机中的各部件运行有多快？"><a href="#计算机中的各部件运行有多快？" class="headerlink" title="计算机中的各部件运行有多快？"></a>计算机中的各部件运行有多快？</h2><h3 id="计算机中各部件的典型速度"><a href="#计算机中各部件的典型速度" class="headerlink" title="计算机中各部件的典型速度"></a>计算机中各部件的典型速度</h3><p>计算机中各部件有不同的执行速度，每一个程序员都应该了解，并且能有效地利用好它们。下面的一张图中，列出了各主要部件的典型速度，他们所处的不同的量级，应该做到心中有数。</p>
+<p><img src="/images/2019/12/system_latencies.png" alt="图1 计算机中各个部件的执行速度"></p>
+<p>图中不仅列出了时间，还列出了一个放大后的时间，我们可以很容易地映射到我们生活中常用的时间尺度，对于他们之间的速度差异有一个更加直观的感受。</p>
+<p>了解了这些，在平时写代码的时候，就要去考虑，如何能够让程序更加高效地运行。CPU 为什么要有流水线，为什么要设置那么多层级的缓存，数据库系统中为什么要利用 redo log？为什么在循环中进行IO操作甚至网络操作的行为是愚蠢的？</p>
+<h3 id="glibc-中-IO-相关函数"><a href="#glibc-中-IO-相关函数" class="headerlink" title="glibc 中 IO 相关函数"></a>glibc 中 IO 相关函数</h3><p>CPU 的运算速度要比 IO 操作执行得快得多。因此，在读取或写入数据到磁盘时，glibc 中的相关函数在系统调用之上，用户空间之中又增加了一层缓存/缓冲，使得一次系统调用能够操作较多的数据，另外，在 CPU 遇到需要等待 IO 操作时，切换至其它进程运行，而不是等待。</p>
+<h3 id="服务端程序业务逻辑中的运用"><a href="#服务端程序业务逻辑中的运用" class="headerlink" title="服务端程序业务逻辑中的运用"></a>服务端程序业务逻辑中的运用</h3><p>想像一种业务逻辑要求：获取一个用户集合中每个用户的订单信息。新手很可能会在遍历用户集合的过程中不断进行数据库访问，获取该用户的订单集合。数据库访问一般来说是网络请求，如果了解到网络请求和 CPU 运算速度之间的巨大差别，是不可能这样去实现的。</p>
 
 </div>
 

@@ -151,10 +151,12 @@ show_sidebar()
 <li>Buffer pool size 是指分配给 buffer pool 的页的数量</li>
 <li>Free buffers 指尚未使用的页数量</li>
 <li>Database pages 指已使用的页数量，young list / old list 中使用的数量</li>
+<li>Modified db pages 指脏页数量</li>
 <li>Old database pages 指 old list 中页的数量</li>
-<li>Pages make young, not young 指被从 old list 移动到 young list 中的页数量，以及留在 old list 中，未被移动的页数量</li>
-<li>youngs/s, no-youngs/s 指页被移动到 young list 之前被访问的次数</li>
+<li>Pages make young, not young 指被从 old list 移动到 young list 中的次数，以及反向操作的次数</li>
+<li>youngs/s, no-youngs/s 每秒这两类操作的次数</li>
 </ul>
+<p>Free buffers 与 Database pages 之和可能会小于 buffer pool size ，因为缓冲池中的页还会被分配给自适应哈希索引，Insert Buffer 等。<br>当 Database pages 中的页被修改后，这个页就会同磁盘上的版本不一致，因此变为了脏页，这个脏页会在 Database pages 以及 Modified db pages 中维护，等待 checkpoint 机制刷新回磁盘。</p>
 <h3 id="相关文章"><a href="#相关文章" class="headerlink" title="相关文章"></a>相关文章</h3><p>最后，我在网络上发现了一些大神对于 InnoDB 分析的文章：</p>
 <ul>
 <li><p><a href="https://blog.jcole.us/innodb/" target="_blank" rel="noopener">Jeremy Cole</a><br>作者在其博客中分享了一系列的文章来介绍 InnoDB 的内部原理及实现</p>

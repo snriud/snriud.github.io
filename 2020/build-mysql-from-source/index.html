@@ -11,7 +11,7 @@
 
     <title>
         
-          Snriud
+          build-mysql-from-source - Snriud
         
     </title>
 
@@ -108,105 +108,62 @@ show_sidebar()
 
       <div class="column col-8 col-lg-12">
         <div class="book-content">
-          <div class='book-archive'>
-  <!-- Title -->
-  
-    <h2>Archives</h2>
-  
+          <div class="book-navbar">
+  <header class="navbar">
+  <section class="navbar-section">
+    <img class="navbar-icon" src="/favicon.ico">
+  </section>
+  <section class="navbar-center">
+    Snriud
+  </section>
+  <section class="navbar-section">
+    <label class="accordion-header c-hand" for="accordion-sidebar">
+      <i class="icon icon-menu"></i>
+    </label>
+  </section>
+</header>
 
-  
-    <!-- Split post by year -->
-    
-  
+<div class="accordion">
+  <input type="checkbox" id="accordion-sidebar" name="accordion-checkbox" hidden>
+  <div class="accordion-body">
+    <ul>
+<li><a href="/">Home</a></li>
+<li>Categories<ul>
+<li><a href="/linux">Linux</a></li>
+<li><a href="/mysql">MySQL</a></li>
+<li><a href="/algo">algo</a></li>
+<li><a href="/redis">Redis</a></li>
+<li><a href="/life">Life</a></li>
+</ul>
+</li>
+<li><a href="/books">Books</a></li>
+<li><a href="/tools">Tools</a></li>
+<li><a href="/reference">Reference</a></li>
+<li><a href="/about">About</a></li>
+</ul>
 
-  
-      <div class="book-archive-years">
-          <h5>2020</h5>
-          <ul class="archive-list-item">
-          
-              <li>
-                <span>2020-03-09</span>
-                <a href="/2020/build-mysql-from-source/">
-                  build-mysql-from-source
-                </a>
-              </li>
-          
-              <li>
-                <span>2020-01-01</span>
-                <a href="/2020/innodb-change-buffer/">
-                  innodb-change-buffer
-                </a>
-              </li>
-          
-          </ul>
-      </div>
-  
-      <div class="book-archive-years">
-          <h5>2019</h5>
-          <ul class="archive-list-item">
-          
-              <li>
-                <span>2019-12-22</span>
-                <a href="/2019/innodb-buffer-pool/">
-                  innodb-buffer-pool
-                </a>
-              </li>
-          
-              <li>
-                <span>2019-12-22</span>
-                <a href="/2019/persistence/">
-                  persistence
-                </a>
-              </li>
-          
-              <li>
-                <span>2019-12-21</span>
-                <a href="/2019/how-fast-computer-run/">
-                  how-fast-computer-run
-                </a>
-              </li>
-          
-              <li>
-                <span>2019-12-09</span>
-                <a href="/2019/how-to-improve-your-skills-as-a-chassis-engineer/">
-                  how-to-improve-your-skills-as-a-chassis-engineer
-                </a>
-              </li>
-          
-              <li>
-                <span>2019-12-08</span>
-                <a href="/2019/system-calls/">
-                  Linux 系统调用
-                </a>
-              </li>
-          
-              <li>
-                <span>2019-11-23</span>
-                <a href="/2019/menu/">
-                  menu
-                </a>
-              </li>
-          
-              <li>
-                <span>2019-11-23</span>
-                <a href="/2019/home/">
-                  home
-                </a>
-              </li>
-          
-              <li>
-                <span>2019-11-23</span>
-                <a href="/2019/hello-world/">
-                  Hello World
-                </a>
-              </li>
-          
-          </ul>
-      </div>
-  
-
-  
+  </div>
 </div>
+</div>
+
+<div class="book-post">
+  <h2 id="从源代码编译安装-MySQL"><a href="#从源代码编译安装-MySQL" class="headerlink" title="从源代码编译安装 MySQL"></a>从源代码编译安装 MySQL</h2><h3 id="为什么要手动编译安装-MySQL"><a href="#为什么要手动编译安装-MySQL" class="headerlink" title="为什么要手动编译安装 MySQL?"></a>为什么要手动编译安装 MySQL?</h3><p>为了深入理解 MySQL, 以及整个编译安装的过程，了解编译安装一个大型项目的整个流程，验证编译是否传说中的那样耗时。真实原因：新购入了 DELL OptiPlex 微型电脑用来当作家里的开发机，测测 i9-9900k 这颗CPU的性能怎么，另外就是闲，疫情期间无法外出，加之还没有手动编译过这样大型的项目，体验一把。</p>
+<p>作为一个有洁癖的人，为了不把我好不容易配置好的开发环境破坏掉，引入一堆我平时用不到的包或头文件，我创建了一个 centos 容器镜像来进行编译，过完瘾之后删除就可以。</p>
+<h3 id="编译安装过程"><a href="#编译安装过程" class="headerlink" title="编译安装过程"></a>编译安装过程</h3><h3 id="启动-MySQL"><a href="#启动-MySQL" class="headerlink" title="启动 MySQL"></a>启动 MySQL</h3><h3 id="可能会遇到的问题"><a href="#可能会遇到的问题" class="headerlink" title="可能会遇到的问题"></a>可能会遇到的问题</h3>
+</div>
+
+
+  <div class="book-comments">
+    
+
+
+
+
+  </div>
+
+
+<script src="/js/book-post.js"></script>
+
         </div>
       </div>
 

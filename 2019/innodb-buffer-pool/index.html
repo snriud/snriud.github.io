@@ -79,7 +79,8 @@ document.addEventListener('DOMContentLoaded', function () {
   <div class="sidebar-content">
     <ul>
 <li><a href="/">Home</a></li>
-<li>Categories<ul>
+<li>Categories
+<ul>
 <li><a href="/linux">Linux</a></li>
 <li><a href="/mysql">MySQL</a></li>
 <li><a href="/algo">algo</a></li>
@@ -128,7 +129,8 @@ show_sidebar()
   <div class="accordion-body">
     <ul>
 <li><a href="/">Home</a></li>
-<li>Categories<ul>
+<li>Categories
+<ul>
 <li><a href="/linux">Linux</a></li>
 <li><a href="/mysql">MySQL</a></li>
 <li><a href="/algo">algo</a></li>
@@ -147,27 +149,28 @@ show_sidebar()
 </div>
 
 <div class="book-post">
-  <h2 id="关于-InnoDB-存储引擎中的-buffer-pool"><a href="#关于-InnoDB-存储引擎中的-buffer-pool" class="headerlink" title="关于 InnoDB 存储引擎中的 buffer pool"></a>关于 InnoDB 存储引擎中的 buffer pool</h2><p>众所周知，innodb 维护了一块内存空间，称作 buffer pool 用于缓存文件系统中读取的页。这里记录下我了解到的 innodb 对于这块内存空间的管理。</p>
-<h3 id="关于-buffer-pool"><a href="#关于-buffer-pool" class="headerlink" title="关于 buffer pool"></a>关于 buffer pool</h3><p>buffer pool 可以有多个实例，也就是说可以有多块 buffer pool 来供系统使用，这个参数由 <strong><em>innodb_buffer_pool_instances</em></strong> 来控制。每个 page 的大小默认为 16K，由 <strong><em>innodb_page_size</em></strong> 这个参数可以查到。buffer pool 分配的内存在保证服务器其它进程够用的情况下，应尽可能大一些(经验值是物理服务器内存大小的80%)，以更好地利用合并写等特性来提高 IO 性能, 同样 buffer pool 的大小可以由 <strong><em>innodb_buffer_pool_size</em></strong> 来查看。</p>
-<p>buffer pool 中还有一个参数<strong><em>innodb_buffer_pool_chunk_size</em></strong>, 它是对每一个 innodb buffer pool instances 中的 pages 进行了一个划分，目的是为了能够更高效地动态调整 buffer pool 的大小。当用户在实例运行时调整 buffer pool 大小时，innodb 需要申请一块新的内存，将原内容复制过去，如果分配的内存很大，这一步会很耗时，将内存按 buffer pool chunk 分块后，可以一块一块地进行。</p>
+  <h2 id="关于-InnoDB-存储引擎中的-buffer-pool">关于 InnoDB 存储引擎中的 buffer pool</h2>
+<p>众所周知，innodb 维护了一块内存空间，称作 buffer pool 用于缓存文件系统中读取的页。这里记录下我了解到的 innodb 对于这块内存空间的管理。</p>
+<h3 id="关于-buffer-pool">关于 buffer pool</h3>
+<p>buffer pool 可以有多个实例，也就是说可以有多块 buffer pool 来供系统使用，这个参数由 <em><strong>innodb_buffer_pool_instances</strong></em> 来控制。每个 page 的大小默认为 16K，由 <em><strong>innodb_page_size</strong></em> 这个参数可以查到。buffer pool 分配的内存在保证服务器其它进程够用的情况下，应尽可能大一些(经验值是物理服务器内存大小的80%)，以更好地利用合并写等特性来提高 IO 性能, 同样 buffer pool 的大小可以由 <em><strong>innodb_buffer_pool_size</strong></em> 来查看。</p>
+<p>buffer pool 中还有一个参数<em><strong>innodb_buffer_pool_chunk_size</strong></em>, 它是对每一个 innodb buffer pool instances 中的 pages 进行了一个划分，目的是为了能够更高效地动态调整 buffer pool 的大小。当用户在实例运行时调整 buffer pool 大小时，innodb 需要申请一块新的内存，将原内容复制过去，如果分配的内存很大，这一步会很耗时，将内存按 buffer pool chunk 分块后，可以一块一块地进行。</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">variables</span> <span class="keyword">like</span> <span class="string">'innodb_buffer_pool_instances'</span>;</span><br><span class="line">+<span class="comment">------------------------------+-------+</span></span><br><span class="line">| Variable_name                | Value |</span><br><span class="line">+<span class="comment">------------------------------+-------+</span></span><br><span class="line">| innodb_buffer_pool_instances | 1     |</span><br><span class="line">+<span class="comment">------------------------------+-------+</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">variables</span> <span class="keyword">like</span> <span class="string">'innodb_page_size'</span>;</span><br><span class="line">+<span class="comment">------------------+-------+</span></span><br><span class="line">| Variable_name    | Value |</span><br><span class="line">+<span class="comment">------------------+-------+</span></span><br><span class="line">| innodb_page_size | 16384 |</span><br><span class="line">+<span class="comment">------------------+-------+</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">variables</span> <span class="keyword">like</span> <span class="string">'innodb_buffer_pool_size'</span>;</span><br><span class="line">+<span class="comment">-------------------------+-----------+</span></span><br><span class="line">| Variable_name           | Value     |</span><br><span class="line">+<span class="comment">-------------------------+-----------+</span></span><br><span class="line">| innodb_buffer_pool_size | 134217728 |</span><br><span class="line">+<span class="comment">-------------------------+-----------+</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">variables</span> <span class="keyword">like</span> <span class="string">'innodb_buffer_pool_chunk_size'</span>;</span><br><span class="line">+<span class="comment">-------------------------------+-----------+</span></span><br><span class="line">| Variable_name                 | Value     |</span><br><span class="line">+<span class="comment">-------------------------------+-----------+</span></span><br><span class="line">| innodb_buffer_pool_chunk_size | 134217728 |</span><br><span class="line">+<span class="comment">-------------------------------+-----------+</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="buffer-pool-的维护"><a href="#buffer-pool-的维护" class="headerlink" title="buffer pool 的维护"></a>buffer pool 的维护</h3><p>InnoDB 中主要使用三个链表来对 buffer pool 进行维护 (此外，还有自适应哈希索引，log buffer，数据字典等，不使用链表维护)。</p>
+<h3 id="buffer-pool-的维护">buffer pool 的维护</h3>
+<p>InnoDB 中主要使用三个链表来对 buffer pool 进行维护 (此外，还有自适应哈希索引，log buffer，数据字典等，不使用链表维护)。</p>
 <p>一个链表记录已读入内存中的页(LRU list)，这个链表中的页使用 LRU (Least Recently Used) 算法来进行管理。</p>
-<p>另一个链表来记录尚未使用的页(free list)，记录已读入内存中页的链表又分为两部分，前面一部分称为 young list，后面一部分称为 old list，参数 <strong><em>innodb_old_blocks_pct</em></strong> 记录他们之间的界限，默认值为 3/8, 即 young list 占用 5/8, old list 占用 3/8, 这个分界的位置也叫做 midpoint。</p>
+<p>另一个链表来记录尚未使用的页(free list)，记录已读入内存中页的链表又分为两部分，前面一部分称为 young list，后面一部分称为 old list，参数 <em><strong>innodb_old_blocks_pct</strong></em> 记录他们之间的界限，默认值为 3/8, 即 young list 占用 5/8, old list 占用 3/8, 这个分界的位置也叫做 midpoint。</p>
 <p>第三个链表中用来记录已经执行过修改的脏页(dirty pages)，这个链表叫做 flush list。</p>
 <p>当客户端执行一些 SQL 读操作时，将会首先去 LRU list 中寻找这个页，如果未找到，则从 free buffers 维护的链表中取一个页来存储从磁盘中读到的页，这个页被加入到 old list 的头部。 当 free buffers 中没有多余的空闲页可供使用时，会将 old list 尾部中的 page 进行驱逐，然后存放新读入的页，置于 old list 头部。</p>
 <p>如果要查询的页最初就在 old list 中，则将这个页加入到 young list 中，这个操作也叫作 pages made young。</p>
 <p>innodb 中实现这样一个 young/old 分区的链表，主要是为了防止 innodb 预读造成的影响。在将一个页加载到内存中时，会将相邻的页也加载进来放在 old 区，只有在页真正被用户读取时，才会将这个页放在 young 区中。</p>
-<p>除了预读所带来的影响，很容易想到，某一个 SQL 查询的结果集如果非常大（对应于业务中的生成报表等业务）, old list / young list 会很快被替换掉，这样，之前的所有缓存都将失效，如果我们再次访问时，需要重新进行 IO 操作，读入缓存中。这种情况是我们不愿意看到的。为此，InnoDB 引入了 <strong><em>innodb_old_blocks_time</em></strong> 来控制 old list 中的页必须等待多久之后才会在再次访问时被加入到 young list 中。这个参数的默认值为 1000，单位为毫秒。并且，这个值是全局动态的，因此，我们在执行此类操作时，可以先将这个参数调整到一个比较大的值，待操作完成后，再调回原值，避免将原来的热数据淘汰掉。</p>
+<p>除了预读所带来的影响，很容易想到，某一个 SQL 查询的结果集如果非常大（对应于业务中的生成报表等业务）, old list / young list 会很快被替换掉，这样，之前的所有缓存都将失效，如果我们再次访问时，需要重新进行 IO 操作，读入缓存中。这种情况是我们不愿意看到的。为此，InnoDB 引入了 <em><strong>innodb_old_blocks_time</strong></em> 来控制 old list 中的页必须等待多久之后才会在再次访问时被加入到 young list 中。这个参数的默认值为 1000，单位为毫秒。并且，这个值是全局动态的，因此，我们在执行此类操作时，可以先将这个参数调整到一个比较大的值，待操作完成后，再调回原值，避免将原来的热数据淘汰掉。</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">variables</span> <span class="keyword">like</span> <span class="string">'innodb_old_blocks_pct'</span>;</span><br><span class="line">+<span class="comment">-----------------------+-------+</span></span><br><span class="line">| Variable_name         | Value |</span><br><span class="line">+<span class="comment">-----------------------+-------+</span></span><br><span class="line">| innodb_old_blocks_pct | 37    |</span><br><span class="line">+<span class="comment">-----------------------+-------+</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">variables</span> <span class="keyword">like</span> <span class="string">'innodb_old_blocks_time'</span>;</span><br><span class="line">+<span class="comment">------------------------+-------+</span></span><br><span class="line">| Variable_name          | Value |</span><br><span class="line">+<span class="comment">------------------------+-------+</span></span><br><span class="line">| innodb_old_blocks_time | 1000  |</span><br><span class="line">+<span class="comment">------------------------+-------+</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="查看引擎中关于-buffer-pool-的信息"><a href="#查看引擎中关于-buffer-pool-的信息" class="headerlink" title="查看引擎中关于 buffer pool 的信息"></a>查看引擎中关于 buffer pool 的信息</h3><p>buffer pool 中的维护信息可以通过引擎的状态信息来查看：</p>
+<h3 id="查看引擎中关于-buffer-pool-的信息">查看引擎中关于 buffer pool 的信息</h3>
+<p>buffer pool 中的维护信息可以通过引擎的状态信息来查看：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">engine</span> <span class="keyword">innodb</span> <span class="keyword">status</span>\G</span><br><span class="line">...</span><br><span class="line"><span class="comment">----------------------</span></span><br><span class="line">BUFFER POOL <span class="keyword">AND</span> <span class="keyword">MEMORY</span></span><br><span class="line"><span class="comment">----------------------</span></span><br><span class="line">Total <span class="keyword">large</span> <span class="keyword">memory</span> allocated <span class="number">137428992</span></span><br><span class="line">Dictionary <span class="keyword">memory</span> allocated <span class="number">149787</span></span><br><span class="line">Buffer pool <span class="keyword">size</span>   <span class="number">8192</span></span><br><span class="line">Free buffers       <span class="number">7807</span></span><br><span class="line"><span class="keyword">Database</span> pages     <span class="number">385</span></span><br><span class="line"><span class="keyword">Old</span> <span class="keyword">database</span> pages <span class="number">0</span></span><br><span class="line">Modified db pages  <span class="number">0</span></span><br><span class="line">Pending <span class="keyword">reads</span>      <span class="number">0</span></span><br><span class="line">Pending writes: LRU <span class="number">0</span>, <span class="keyword">flush</span> <span class="keyword">list</span> <span class="number">0</span>, single page <span class="number">0</span></span><br><span class="line">Pages made young <span class="number">0</span>, <span class="keyword">not</span> young <span class="number">0</span></span><br><span class="line"><span class="number">0.00</span> youngs/s, <span class="number">0.00</span> non-youngs/s</span><br><span class="line">Pages <span class="keyword">read</span> <span class="number">351</span>, created <span class="number">34</span>, written <span class="number">36</span></span><br><span class="line"><span class="number">0.00</span> <span class="keyword">reads</span>/s, <span class="number">0.00</span> creates/s, <span class="number">0.00</span> writes/s</span><br><span class="line">Buffer pool hit rate <span class="number">991</span> / <span class="number">1000</span>, young-making rate <span class="number">0</span> / <span class="number">1000</span> <span class="keyword">not</span> <span class="number">0</span> / <span class="number">1000</span></span><br><span class="line">Pages <span class="keyword">read</span> ahead <span class="number">0.00</span>/s, evicted <span class="keyword">without</span> <span class="keyword">access</span> <span class="number">0.00</span>/s, Random <span class="keyword">read</span> ahead <span class="number">0.00</span>/s</span><br><span class="line">LRU <span class="keyword">len</span>: <span class="number">385</span>, unzip_LRU <span class="keyword">len</span>: <span class="number">0</span></span><br><span class="line">I/O <span class="keyword">sum</span>[<span class="number">0</span>]:cur[<span class="number">0</span>], unzip <span class="keyword">sum</span>[<span class="number">0</span>]:cur[<span class="number">0</span>]</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-
 <p>其中：</p>
 <ul>
-<li>Buffer pool size 是指分配给 buffer pool 的<strong><em>页的数量</em></strong></li>
+<li>Buffer pool size 是指分配给 buffer pool 的<em><strong>页的数量</strong></em></li>
 <li>Free buffers 指尚未使用的页数量</li>
 <li>Database pages 指已使用的页数量，young list / old list 中使用的数量</li>
 <li>Modified db pages 指脏页数量</li>
@@ -178,23 +181,38 @@ show_sidebar()
 <li>pending writes 是指等待将内存中的页刷入磁盘的数量</li>
 <li>buffer pool hit rage 是指命中率，一般这个值至少要保持在 95% 以上</li>
 </ul>
-<p>Free buffers 与 Database pages 之和可能会小于 buffer pool size ，因为缓冲池中的页还会被分配给自适应哈希索引，Insert Buffer 等。<br>当 Database pages 中的页被修改后，这个页就会同磁盘上的版本不一致，因此变为了脏页，这个脏页会在 Database pages 以及 Modified db pages 中维护，等待 checkpoint 机制刷新回磁盘。</p>
-<h3 id="关于-buffer-pool-中的数据结构"><a href="#关于-buffer-pool-中的数据结构" class="headerlink" title="关于 buffer pool 中的数据结构"></a>关于 buffer pool 中的数据结构</h3><p>free list / LRU list / flush list 除了这三个链表中使用到了链表数据结构，innodb 中还使有到了更多其它的数据结构。其中之一便是哈希表。</p>
+<p>Free buffers 与 Database pages 之和可能会小于 buffer pool size ，因为缓冲池中的页还会被分配给自适应哈希索引，Insert Buffer 等。<br>
+当 Database pages 中的页被修改后，这个页就会同磁盘上的版本不一致，因此变为了脏页，这个脏页会在 Database pages 以及 Modified db pages 中维护，等待 checkpoint 机制刷新回磁盘。</p>
+<h3 id="关于-buffer-pool-中的数据结构">关于 buffer pool 中的数据结构</h3>
+<p>free list / LRU list / flush list 除了这三个链表中使用到了链表数据结构，innodb 中还使有到了更多其它的数据结构。其中之一便是哈希表。</p>
 <p>当用户请求到来时，可以根据上层的一些 B+ 树节点(这些节点一般会一直保持在内存中)确认所在的页号，接下来需要在 buffer pool 中寻找这个页，为了快速寻找，这个时候就需要哈希表的帮助了。</p>
 <p>另外，每个 page 在内存中都会有一块对应的很小的 pct 内存，链表中的节点并非是页的地址，而是这块 pct 的内存地址。</p>
-<h3 id="相关文章"><a href="#相关文章" class="headerlink" title="相关文章"></a>相关文章</h3><p>最后，我在网络上发现了一些大神对于 InnoDB 分析的文章：</p>
+<h3 id="相关文章">相关文章</h3>
+<p>最后，我在网络上发现了一些大神对于 InnoDB 分析的文章：</p>
 <ul>
-<li><p><a href="https://blog.jcole.us/innodb/" target="_blank" rel="noopener">Jeremy Cole</a><br>作者在其博客中分享了一系列的文章来介绍 InnoDB 的内部原理及实现</p>
+<li>
+<p><a href="https://blog.jcole.us/innodb/" target="_blank" rel="noopener">Jeremy Cole</a><br>
+作者在其博客中分享了一系列的文章来介绍 InnoDB 的内部原理及实现</p>
 </li>
-<li><p><a href="https://jin-yang.github.io/post/mysql-innodb-storage.html" target="_blank" rel="noopener">Jin Yang</a><br>这篇文章中记录了 InnoDB 底层数据文件的格式，以及对于数据的组织</p>
+<li>
+<p><a href="https://jin-yang.github.io/post/mysql-innodb-storage.html" target="_blank" rel="noopener">Jin Yang</a><br>
+这篇文章中记录了 InnoDB 底层数据文件的格式，以及对于数据的组织</p>
 </li>
-<li><p><a href="http://mysql.taobao.org/monthly/2017/05/01/" target="_blank" rel="noopener">阿里云数据库内核组</a><br>阿里云数据库内核组对于 buffer pool 的介绍</p>
+<li>
+<p><a href="http://mysql.taobao.org/monthly/2017/05/01/" target="_blank" rel="noopener">阿里云数据库内核组</a><br>
+阿里云数据库内核组对于 buffer pool 的介绍</p>
 </li>
-<li><p><a href="https://www.percona.com/blog/" target="_blank" rel="noopener">mysqlperformanceblog</a><br>如博客名称, 讲述如何优化 MySQL 性能的博客</p>
+<li>
+<p><a href="https://www.percona.com/blog/" target="_blank" rel="noopener">mysqlperformanceblog</a><br>
+如博客名称, 讲述如何优化 MySQL 性能的博客</p>
 </li>
-<li><p><a href="https://zhuanlan.51cto.com/art/201906/598261.htm" target="_blank" rel="noopener">58沈剑 buffer pool</a><br>针对 buffer pool 通俗易懂地介绍</p>
+<li>
+<p><a href="https://zhuanlan.51cto.com/art/201906/598261.htm" target="_blank" rel="noopener">58沈剑 buffer pool</a><br>
+针对 buffer pool 通俗易懂地介绍</p>
 </li>
-<li><p><a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-buffer-pool.html" target="_blank" rel="noopener">MySQL Manual</a><br>MySQL 官方手册中针对 buffer pool 的介绍</p>
+<li>
+<p><a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-buffer-pool.html" target="_blank" rel="noopener">MySQL Manual</a><br>
+MySQL 官方手册中针对 buffer pool 的介绍</p>
 </li>
 </ul>
 

@@ -79,7 +79,8 @@ document.addEventListener('DOMContentLoaded', function () {
   <div class="sidebar-content">
     <ul>
 <li><a href="/">Home</a></li>
-<li>Categories<ul>
+<li>Categories
+<ul>
 <li><a href="/linux">Linux</a></li>
 <li><a href="/mysql">MySQL</a></li>
 <li><a href="/algo">algo</a></li>
@@ -111,32 +112,59 @@ show_sidebar()
           
 <article id="page" class="book-post">
   <h2>常用工具</h2>
-  <h3 id="1-监控工具"><a href="#1-监控工具" class="headerlink" title="1. 监控工具"></a>1. 监控工具</h3><h4 id="Linux-系统"><a href="#Linux-系统" class="headerlink" title="Linux 系统"></a>Linux 系统</h4><h4 id="中间件"><a href="#中间件" class="headerlink" title="中间件"></a>中间件</h4><h4 id="语言相关"><a href="#语言相关" class="headerlink" title="语言相关"></a>语言相关</h4><h3 id="2-压测工具"><a href="#2-压测工具" class="headerlink" title="2. 压测工具"></a>2. 压测工具</h3><ul>
-<li><a href="https://github.com/buger/goreplay" target="_blank" rel="noopener">goreplay</a><br>抓取HTTP请求扩大后回放压测</li>
+  <h3 id="1-监控工具">1. 监控工具</h3>
+<h4 id="Linux-系统">Linux 系统</h4>
+<h4 id="中间件">中间件</h4>
+<h4 id="语言相关">语言相关</h4>
+<h3 id="2-压测工具">2. 压测工具</h3>
+<ul>
+<li><a href="https://github.com/buger/goreplay" target="_blank" rel="noopener">goreplay</a><br>
+抓取HTTP请求扩大后回放压测</li>
 </ul>
-<h3 id="3-图表及文档相关工具"><a href="#3-图表及文档相关工具" class="headerlink" title="3. 图表及文档相关工具"></a>3. 图表及文档相关工具</h3><ul>
-<li><a href="https://plantuml.com/" target="_blank" rel="noopener">PlantUML</a><br>使用简单直观的语言来定义时序图，用例图，类图，状态图…</li>
+<h3 id="3-图表及文档相关工具">3. 图表及文档相关工具</h3>
+<ul>
+<li><a href="https://plantuml.com/" target="_blank" rel="noopener">PlantUML</a><br>
+使用简单直观的语言来定义时序图，用例图，类图，状态图…</li>
 </ul>
-<h3 id="4-语言相关的库"><a href="#4-语言相关的库" class="headerlink" title="4. 语言相关的库"></a>4. 语言相关的库</h3><h4 id="Golang"><a href="#Golang" class="headerlink" title="Golang"></a>Golang</h4><ul>
-<li><p><a href="https://github.com/jessevdk/go-flags" target="_blank" rel="noopener">go-flags</a><br>Golang 中用于解析命令行参数的库, 可以解析 gnu 风格的参数列表，支持子命令，命令分组等概念</p>
+<h3 id="4-语言相关的库">4. 语言相关的库</h3>
+<h4 id="Golang">Golang</h4>
+<ul>
+<li>
+<p><a href="https://github.com/jessevdk/go-flags" target="_blank" rel="noopener">go-flags</a><br>
+Golang 中用于解析命令行参数的库, 可以解析 gnu 风格的参数列表，支持子命令，命令分组等概念</p>
 </li>
-<li><p><a href="https://github.com/spf13/viper" target="_blank" rel="noopener">viper</a><br>Golang 中配置解析及加载，支持从配置文件，命令行，环境变量，配置中心，KV存储中获取配置及热加载</p>
+<li>
+<p><a href="https://github.com/spf13/viper" target="_blank" rel="noopener">viper</a><br>
+Golang 中配置解析及加载，支持从配置文件，命令行，环境变量，配置中心，KV存储中获取配置及热加载</p>
 </li>
-<li><p><a href="https://github.com/urfave/cli" target="_blank" rel="noopener">cli</a><br>Golang 命令行工具开发框架，支持类似于 Docker 风格的子命令</p>
+<li>
+<p><a href="https://github.com/urfave/cli" target="_blank" rel="noopener">cli</a><br>
+Golang 命令行工具开发框架，支持类似于 Docker 风格的子命令</p>
 </li>
-<li><p><a href="https://github.com/gin-gonic/gin" target="_blank" rel="noopener">gin</a><br>Golang Web 项目开发框架</p>
+<li>
+<p><a href="https://github.com/gin-gonic/gin" target="_blank" rel="noopener">gin</a><br>
+Golang Web 项目开发框架</p>
 </li>
-<li><p><a href="https://github.com/jinzhu/gorm" target="_blank" rel="noopener">gorm</a><br>Golang 关系数据库 ORM 开发框架</p>
+<li>
+<p><a href="https://github.com/jinzhu/gorm" target="_blank" rel="noopener">gorm</a><br>
+Golang 关系数据库 ORM 开发框架</p>
 </li>
 </ul>
-<h4 id="PHP"><a href="#PHP" class="headerlink" title="PHP"></a>PHP</h4><ul>
-<li><p><a href="https://laravel.com/" target="_blank" rel="noopener">Laravel</a><br>PHP Web 项目开发框架</p>
+<h4 id="PHP">PHP</h4>
+<ul>
+<li>
+<p><a href="https://laravel.com/" target="_blank" rel="noopener">Laravel</a><br>
+PHP Web 项目开发框架</p>
 </li>
-<li><p><a href="https://github.com/Seldaek/monolog" target="_blank" rel="noopener">monolog</a><br>PHP 中日志首选工具</p>
+<li>
+<p><a href="https://github.com/Seldaek/monolog" target="_blank" rel="noopener">monolog</a><br>
+PHP 中日志首选工具</p>
 </li>
 </ul>
-<h4 id="C-CPP"><a href="#C-CPP" class="headerlink" title="C/CPP"></a>C/CPP</h4><ul>
-<li><a href="https://www.gnu.org/software/ncurses/" target="_blank" rel="noopener">ncurses</a><br>终端图形库</li>
+<h4 id="C-CPP">C/CPP</h4>
+<ul>
+<li><a href="https://www.gnu.org/software/ncurses/" target="_blank" rel="noopener">ncurses</a><br>
+终端图形库</li>
 </ul>
 
 </article>

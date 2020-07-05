@@ -11,7 +11,7 @@
 
     <title>
         
-          Hello World - Snriud
+          bufio-in-golang - Snriud
         
     </title>
 
@@ -149,20 +149,19 @@ show_sidebar()
 </div>
 
 <div class="book-post">
-  <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start">Quick Start</h2>
-<h3 id="Create-a-new-post">Create a new post</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server">Run server</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files">Generate static files</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites">Deploy to remote sites</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+  <h2 id="Golang-中的-bufio-包">Golang 中的 bufio 包</h2>
+<h3 id="提高-IO-性能">提高 IO 性能</h3>
+<p>磁盘IO是很慢的。相比于CPU计算来说，执行系统调用的代价是很大的。想像一个业务场景，需要不断地从磁盘中取出一小块数据，然后对它进行处理，接着再取出下一块，继续处理…</p>
+<p>一次性尽可能地多读取出来一些数据，存放在内存中，CPU 在需要数据时，多次从内存获取，减少系统调用的次数，磁盘 IO 变为顺序 IO，可以极大地提高性能。</p>
+<p>不仅仅是读取，写入磁盘的操作也可以用到内存缓冲。</p>
+<p>如下面的示例：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 读操作</span></span><br><span class="line">io.Reader(without cache) --&gt; memory cache --&gt; consumer</span><br><span class="line"></span><br><span class="line">Disk        cache       destination</span><br><span class="line">abcd -----&gt; abcd -----&gt; a</span><br><span class="line">            abcd -----&gt; b</span><br><span class="line">            abcd -----&gt; c</span><br><span class="line">            abcd -----&gt; d</span><br><span class="line">efgh -----&gt; efgh -----&gt; e</span><br><span class="line">            efgh -----&gt; f</span><br><span class="line">            efgh -----&gt; g</span><br><span class="line">            efgh -----&gt; h</span><br><span class="line">ijkl -----&gt; ijkl -----&gt; i</span><br><span class="line">            ijkl -----&gt; j</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 写操作</span></span><br><span class="line">producer --&gt; memory buffer --&gt; io.Writer(without buffer)</span><br><span class="line"></span><br><span class="line">producer         buffer           destination (io.Writer)</span><br><span class="line">   a    -----&gt;   a</span><br><span class="line">   b    -----&gt;   ab</span><br><span class="line">   c    -----&gt;   abc</span><br><span class="line">   d    -----&gt;   abcd</span><br><span class="line">   e    -----&gt;   e      ------&gt;   abcd</span><br><span class="line">   f    -----&gt;   ef               abcd</span><br><span class="line">   g    -----&gt;   efg              abcd</span><br><span class="line">   h    -----&gt;   efgh             abcd</span><br><span class="line">   i    -----&gt;   i      ------&gt;   abcdefgh</span><br></pre></td></tr></table></figure>
+<h3 id="bufio-Reader">bufio.Reader</h3>
+<h3 id="bufio-Writer">bufio.Writer</h3>
+<h3 id="bufio-Scanner">bufio.Scanner</h3>
+<h3 id="小心内存泄露">小心内存泄露</h3>
+<h3 id="glibc-中的实现">glibc 中的实现</h3>
+<h3 id="参考">参考</h3>
 
 </div>
 

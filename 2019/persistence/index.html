@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+
+    
+      <link rel="icon" href="/favicon.ico" />
+    
+
+    <title>
+        
+          persistence - Snriud
+        
+    </title>
+
+    <!-- web fonts -->
+    <link href="//fonts.googleapis.com/css?family=Oxygen:400,700,300|Crimson+Text:400,400italic&amp;subset=latin,latin-ext" media="screen" rel="stylesheet" type="text/css">
+
+    <!-- Spectre.css framework -->
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+
+    <!-- Noto Sans TC -->
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+TC" rel="stylesheet">
+    <!-- Noto Sans SC -->
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+SC" rel="stylesheet">
+    <!-- Noto Sans -->
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
+
+    <!-- theme css & js -->
+    <link rel="stylesheet" href="/css/book.css">
+    <script src="/js/book.js"></script>
+
+    <!-- tocbot -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+    
+    <!-- katex -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+
+    
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-34863358-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zooming/2.1.1/zooming.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const zooming = new Zooming()
+    zooming.listen('img')
+})
+</script>
+
+</head>
+
+
+<body>
+
+<div class="container">
+  <div class="book-container">
+    <div class="columns">
+      <div class="column col-2 hide-lg">
+        <div class="book-sidebar">
+  <h1 class="site-meta">
+    <a href="/" class="logo">Snriud</a>
+  </h1>
+  <div class="sidebar-content">
+    <ul>
+<li><a href="/">Home</a></li>
+<li>Categories
+<ul>
+<li><a href="/linux">Linux</a></li>
+<li><a href="/mysql">MySQL</a></li>
+<li><a href="/algo">algo</a></li>
+<li><a href="/redis">Redis</a></li>
+<li><a href="/life">Life</a></li>
+</ul>
+</li>
+<li><a href="/books">Books</a></li>
+<li><a href="/movies">Movies</a></li>
+<li><a href="/tools">Tools</a></li>
+<li><a href="/reference">Reference</a></li>
+<li><a href="/about">About</a></li>
+</ul>
+
+  </div>
+</div>
+
+<script src="/js/book-sidebar.js"></script>
+
+<script>
+collapse_sidebar(1)
+highlight_tab()
+show_sidebar()
+</script>
+
+      </div>
+
+      <div class="column col-8 col-lg-12">
+        <div class="book-content">
+          <div class="book-navbar">
+  <header class="navbar">
+  <section class="navbar-section">
+    <img class="navbar-icon" src="/favicon.ico">
+  </section>
+  <section class="navbar-center">
+    Snriud
+  </section>
+  <section class="navbar-section">
+    <label class="accordion-header c-hand" for="accordion-sidebar">
+      <i class="icon icon-menu"></i>
+    </label>
+  </section>
+</header>
+
+<div class="accordion">
+  <input type="checkbox" id="accordion-sidebar" name="accordion-checkbox" hidden>
+  <div class="accordion-body">
+    <ul>
+<li><a href="/">Home</a></li>
+<li>Categories
+<ul>
+<li><a href="/linux">Linux</a></li>
+<li><a href="/mysql">MySQL</a></li>
+<li><a href="/algo">algo</a></li>
+<li><a href="/redis">Redis</a></li>
+<li><a href="/life">Life</a></li>
+</ul>
+</li>
+<li><a href="/books">Books</a></li>
+<li><a href="/movies">Movies</a></li>
+<li><a href="/tools">Tools</a></li>
+<li><a href="/reference">Reference</a></li>
+<li><a href="/about">About</a></li>
+</ul>
+
+  </div>
+</div>
+</div>
+
+<div class="book-post">
+  <h2 id="坚持-积累-复利">坚持 积累 复利</h2>
+<h3 id="什么是复利效应">什么是复利效应</h3>
+<p>复利效应是指指数曲线。即保持稳定的收益率，坚持一定的时间，财富的增长将会越来越快。</p>
+<h3 id="我们应该从事什么样的工作">我们应该从事什么样的工作</h3>
+<p>从上面的描述已经可以看出来了，我们要从事具有复利效应的职业。那些做了两年与做了二十年，所带给你的回报与成长很小（线性增长），甚至微乎其微的职业，要慎重考虑。比如流水线操作工人，比如清洁工人，日复一日的重复劳动，除了会让你更加熟练之外，不会给你带来任何收益。不论是自身的提高，还是经济上的收益。</p>
+<h3 id="为什么说互联网-软件是我认为理想的工作">为什么说互联网/软件是我认为理想的工作</h3>
+<p>互联网/软件行业主要的生产资料在于人，通过出卖自己的智力来获得报酬。虽然其它很多行业也是依靠智力换取报酬，但是在计算机行业，整个流程中，智力占据了绝大部分。举个例子：在汽车行业中，设计并验证一个汽车部件，再到最终的量产，智力的付出占据整个流程中的比例有多少呢？不是很多。除了前期的设计阶段，需要根据约束及性能，耐久，法规等方面的要求设计出零件数模并通过虚拟验证冻结设计之后，接下来的步骤呢？开模具，跑路试，规划生产流水线，装配…这一环节上，哪一步不需要生产资料？不需要很昂贵的生产资料？（软/硬模具开一次模就是上百万，加工中心更是上千万）</p>
+<p>而互联网/软件行业中，服务器的成本与之相比，基本可以忽略不计了。重要的是人的想法，以及把这些可行的想法翻译之后的一行行代码。就我目前所在公司，公司每年的支出，绝大部分是员工工资，其次才是除人之外的生产资料的支出（服务器成本，办公场地等）。</p>
+<h3 id="坚持的力量">坚持的力量</h3>
+<p>复利效应中最难得是什么？除了保持较高的回报率，就是坚持了。坚持看起来很容易，但实践起来特别困难。不信可以回想一下，你上一次下决心要坚持早起是什么时候，而你坚持了多久？</p>
+<p>我很喜欢看B站<a href="https://space.bilibili.com/390461123/" target="_blank" rel="noopener">徐大sao</a>的视频（他是一个目前拥有260多万粉丝的视频博主，每天发布做饭，吃饭的视频）, 除了他的视频记录了朴素的生活，表达了正能量之外，一个很重要的原因是他的坚持。做视频是需要很多精力的，拍摄之后的原始素材，需要花费很长的时间去剪辑，选择合适的背景音乐，添加字幕等等。而这件事，他一坚持就是460多天！他成功的体现指标之一：粉丝量的增长，也正是源于他的坚持。作为对比，我之前很喜欢的另外一个视频博主<a href="https://space.bilibili.com/30643878/" target="_blank" rel="noopener">野食小哥</a>因为更新频率低，许久不出现在我的时间线上，我基本都要把他忘记了。</p>
+<p>财富，能力其实与之类似，需要一点一点地去积累。区别就在于有的人能日复一日地坚持，而另外一些人却很难做到。一个人从开始从事一个职业的那一瞬间起，就开始了他的漫长的积累之路，不论是能力还是财富。能力不好度量，但你有没有想过你的财富可以累积多少呢？从你工作后的那一年起，每月将收入的25%作为积蓄积累起来，并买入一些理财产品，按每年5%的收益率，可以计算一下30年后你的财富会是多少，结果一定会让你吃惊的。</p>
+<p>小学时老师就曾一直讲的道理，直到如今才如此深刻地理解它。</p>
+
+</div>
+
+
+  <div class="book-comments">
+    
+
+
+
+
+  </div>
+
+
+<script src="/js/book-post.js"></script>
+
+        </div>
+      </div>
+
+      <div class="column col-2 hide-lg">
+        <div class="book-toc">
+  <div class="book-tocbot">
+  </div>
+  <div class="book-tocbot-menu">
+    <a class="book-toc-expand" onclick="expand_toc()">Expand all</a>
+    <a onclick="go_top()">Back to top</a>
+    <a onclick="go_bottom()">Go to bottom</a>
+  </div>
+</div>
+
+<script>
+tocbot.init({
+  tocSelector: '.book-tocbot',
+  contentSelector: '.book-post',
+  headingSelector: 'h1, h2, h3, h4, h5',
+  collapseDepth: 2,
+  orderedList: false,
+  scrollSmooth: false,
+});
+
+function expand_toc(){
+  var b = document.querySelector(".book-toc-expand");
+  tocbot.init({
+    tocSelector: '.book-tocbot',
+    contentSelector: '.book-post',
+    headingSelector: 'h1, h2, h3, h4, h5',
+    collapseDepth: 6,
+    orderedList: false,
+    scrollSmooth: false,
+  });
+  b.setAttribute("onclick", "collapse_toc()");
+  b.innerHTML = "Collapse all"
+}
+
+function collapse_toc(){
+  var b = document.querySelector(".book-toc-expand");
+  tocbot.init({
+    tocSelector: '.book-tocbot',
+    contentSelector: '.book-post',
+    headingSelector: 'h1, h2, h3, h4, h5',
+    collapseDepth: 2,
+    orderedList: false,
+    scrollSmooth: false,
+  });
+  b.setAttribute("onclick", "expand_toc()");
+  b.innerHTML = "Expand all"
+}
+
+function go_top() {
+  window.scrollTo(0, 0);
+}
+
+function go_bottom() {
+  window.scrollTo(0, document.body.scrollHeight);
+}
+
+</script>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

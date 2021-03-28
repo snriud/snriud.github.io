@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+
+    
+      <link rel="icon" href="/favicon.ico" />
+    
+
+    <title>
+        
+          linux-package-manager - Snriud
+        
+    </title>
+
+    <!-- web fonts -->
+    <link href="//fonts.googleapis.com/css?family=Oxygen:400,700,300|Crimson+Text:400,400italic&amp;subset=latin,latin-ext" media="screen" rel="stylesheet" type="text/css">
+
+    <!-- Spectre.css framework -->
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+
+    <!-- Noto Sans TC -->
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+TC" rel="stylesheet">
+    <!-- Noto Sans SC -->
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+SC" rel="stylesheet">
+    <!-- Noto Sans -->
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
+
+    <!-- theme css & js -->
+    <link rel="stylesheet" href="/css/book.css">
+    <script src="/js/book.js"></script>
+
+    <!-- tocbot -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+    
+    <!-- katex -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+
+    
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-34863358-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zooming/2.1.1/zooming.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const zooming = new Zooming()
+    zooming.listen('img')
+})
+</script>
+
+</head>
+
+
+<body>
+
+<div class="container">
+  <div class="book-container">
+    <div class="columns">
+      <div class="column col-2 hide-lg">
+        <div class="book-sidebar">
+  <h1 class="site-meta">
+    <a href="/" class="logo">Snriud</a>
+  </h1>
+  <div class="sidebar-content">
+    <ul>
+<li><a href="/">Home</a></li>
+<li>Categories
+<ul>
+<li><a href="/linux">Linux</a></li>
+<li><a href="/mysql">MySQL</a></li>
+<li><a href="/algo">algo</a></li>
+<li><a href="/redis">Redis</a></li>
+<li><a href="/life">Life</a></li>
+</ul>
+</li>
+<li><a href="/books">Books</a></li>
+<li><a href="/movies">Movies</a></li>
+<li><a href="/tools">Tools</a></li>
+<li><a href="/reference">Reference</a></li>
+<li><a href="/about">About</a></li>
+</ul>
+
+  </div>
+</div>
+
+<script src="/js/book-sidebar.js"></script>
+
+<script>
+collapse_sidebar(1)
+highlight_tab()
+show_sidebar()
+</script>
+
+      </div>
+
+      <div class="column col-8 col-lg-12">
+        <div class="book-content">
+          <div class="book-navbar">
+  <header class="navbar">
+  <section class="navbar-section">
+    <img class="navbar-icon" src="/favicon.ico">
+  </section>
+  <section class="navbar-center">
+    Snriud
+  </section>
+  <section class="navbar-section">
+    <label class="accordion-header c-hand" for="accordion-sidebar">
+      <i class="icon icon-menu"></i>
+    </label>
+  </section>
+</header>
+
+<div class="accordion">
+  <input type="checkbox" id="accordion-sidebar" name="accordion-checkbox" hidden>
+  <div class="accordion-body">
+    <ul>
+<li><a href="/">Home</a></li>
+<li>Categories
+<ul>
+<li><a href="/linux">Linux</a></li>
+<li><a href="/mysql">MySQL</a></li>
+<li><a href="/algo">algo</a></li>
+<li><a href="/redis">Redis</a></li>
+<li><a href="/life">Life</a></li>
+</ul>
+</li>
+<li><a href="/books">Books</a></li>
+<li><a href="/movies">Movies</a></li>
+<li><a href="/tools">Tools</a></li>
+<li><a href="/reference">Reference</a></li>
+<li><a href="/about">About</a></li>
+</ul>
+
+  </div>
+</div>
+</div>
+
+<div class="book-post">
+  <h2 id="Linux-包管理器">Linux 包管理器</h2>
+<p>在 Linux 系统中安装软件，更新软件，基本每天都有用到。有的软件可以使用包管理器直接安装；有的软件需要先配置源，然后才能安装；有的软件找不到源可以提供，需要自己下载源码进行编译安装，还有一些软件由于条件限制，如外网隔离等情况，需要自己分析依赖，下载所有的 RPM 包，执行手动安装。</p>
+<p>这里对包管理的方法进行一个总结，不同的安装方式各有什么优缺点，Linux 下的“安装”到底做了什么操作。</p>
+<p>Linux 下的软件是指放在 <code>/usr/bin</code>, <code>/usr/local/bin</code>, <code>/usr/sbin</code> 等目录下的具有 x 权限的二进制或文本文件。这些软件需要用到的配置文件一般存放在 <code>/etc</code> 目录下，这些软件在安装的过程中还会生成帮助文件，存放在 <code>/usr/share</code> 目录下，这些软件在使用的过程中会生成一些数据，有些是临时的，如 pid, sock 文件，有些则是持久的，如 MySQL 生成的数据文件，这些文件会存放在 <code>/var/run</code> 及 <code>/var/lib</code> 目录下。</p>
+<h3 id="Linux-中安装软件的三种方式">Linux 中安装软件的三种方式</h3>
+<ol>
+<li>源码编译安装</li>
+<li>二进制包/ RPM 包安装</li>
+<li>包管理器 yum/dnf 进行安装</li>
+</ol>
+<p>通过源码进行编译安装的方式可定制化的程度更高，可以更加高效，稳定地运行，同时，如果对于某项功能不满足，可以进行修改。但是，这种方法需要有一定的动手能力，编译过程中可能会出现各种错误，需要有解决这些错误的能力，同时根据硬件的不同，编译过程可能较久。另外，所有的文件会安装在某一处，当不需要时，移除也较为方便。</p>
+<p>通过二进制包安装的形式，则是使用别人预先在同等架构硬件下编译并且打包好的包，直接保存在自己系统上相应的目录下。因此，通过这种形式安装软件包速度会很快，并且可以通过 rpm 命令来进行安装，更新，移除等操作，相比源码编译的形式会方便很多。缺点则是不能够自定义功能，更大的缺点则是需要自己解决依赖性问题（比如安装openssl 需要依赖 openssl, 需要先安装 openssl 等依赖，openssh 才会成功安装）。</p>
+<p>通过包管理器的方式进行安装是最方便的，它会自动分析依赖，只需要几个命令就可以成功安装依赖及目标软件，前提是需要提前配置好软件源。同样通过这种形式安装的软件是没法自定义功能的。</p>
+<h3 id="依赖解决">依赖解决</h3>
+<p>通过 RPM 包安装软件可能会遇到依赖错误，这时就需要解决依赖。依赖关系简单的还好，如果遇到依赖关系复杂的，解决依赖真得是一件很折磨人心性的一件事。有时不得不通过 RPM 包来进行安装，例如：有严格网络访问限制的环境。就需要手动下载所有的依赖及目标软件 RPM 包，手动来进行安装。</p>
+<p>RPM 包的命名是有一定规则的：</p>
+<p><code>包名-版本号-发布次数-发行商-Linux平台-适合的硬件平台-包扩展名</code></p>
+<p>例如包名：<code>httpd-2.2.15-15.el6.centos.1.i686.rpm</code>:</p>
+<ul>
+<li>httpd 是软件包名，代表得是什么软件</li>
+<li>2.2.15 分别代表 <code>主版本号.次版本号.修正号</code></li>
+<li>el6 代表软件的发行商，el 表示此包由 red hat 发行，适用于 RHEL 6.x</li>
+<li>centos 代表此包适用于 centos6 发行版</li>
+<li>i686 代表硬件架构平台，可能还会有 x86_64, arm 等</li>
+</ul>
+<p>RPM 包主要有以下的安装路径：</p>
+<table>
+<thead>
+<tr>
+<th>路径</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>/etc</td>
+<td>配置文件安装目录</td>
+</tr>
+<tr>
+<td>/usr/bin</td>
+<td>可执行命令安装目录</td>
+</tr>
+<tr>
+<td>/usr/lib</td>
+<td>程序所使用的函数库保存位置</td>
+</tr>
+<tr>
+<td>/usr/share/doc</td>
+<td>软件使用手册保存存位置</td>
+</tr>
+<tr>
+<td>/usr/share/man</td>
+<td>帮助文件保存位置</td>
+</tr>
+</tbody>
+</table>
+<p>此外，关于每个软件包具体的依赖，及安装文件，可以在下面的网站中进行搜索（可以按平台，发行版等过滤器进行过滤）：<br>
+<a href="https://pkgs.org/" target="_blank" rel="noopener">pkgs.org</a></p>
+<h3 id="软件商店-商超及专卖店">软件商店 - 商超及专卖店</h3>
+<p>如同购物需要去商店一样，通过包管理软件安装软件，也需要到对应的软件商店。商店和包管理器中的源的概念相对应。</p>
+<p>如同购物一样，有一些商店是大型商超，提供各种各样的商品，而有些商品则有指定的专卖店，并且在专卖店中只卖这一类商品。同理，centos 发行版常用的 epel 软件源中，提供了常用软件的软件包，但是如果想要安装一些特定软件，例如：kubernetes, grafana 等，还需要添加额外的源才可以。</p>
+<h3 id="包管理器中的概念">包管理器中的概念</h3>
+<ol>
+<li>包 package<br>
+软件包是指一个可以安装使用的软件</li>
+<li>软件组 group<br>
+软件组是指提供了一系列特定用途软件的一个集合，可以一个命令全部安装。如：Server, Workstation 等</li>
+<li>源 repo<br>
+源是指提供这些软件包的地方，可以是网络上的某个服务器，也可以是本地的光盘等。不同的源中提供了不同的软件，或不同的软件版本。</li>
+<li>包管理器<br>
+rpm 是本地包管理器，可以安装，查询，移除，更新下载好的 rpm 软件包。<br>
+yum / dnf 是可以解决软件依赖并且自动从配置的源中下载软件的包管理器。也是最常用到的命令。</li>
+</ol>
+<p>centos 发行版中常用的包管理器有 yum / dnf。dnf 是对 yum 的一个升级。源的配置信息保存在 <code>/etc/yum.repos.d/</code> 目录中，扩展名都为 <code>.repo</code>。</p>
+<p>在安装软件包前，需要将源中能够提供的软件包的信息下载到本地，也就是这些源的 cache 信息。在修改了源的配置之后，也需要重新下载一份这些源中软件包的信息到本地。</p>
+<p>当前系统中通过包管理器已安装的软件信息维护在 <code>/var/lib/rpm</code> 目录中。</p>
+<h3 id="常用命令">常用命令</h3>
+<p>下面是实战部分，了解了上面的概念及基本原理后，下面的常用命令理解起来就容易多了。</p>
+<h4 id="RPM">RPM</h4>
+<p>安装一个本地的 rpm 包（以 httpd 包为例）。如果软件包有依赖，必须保证先将依赖安装完成。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> -i 表示安装的意思 install</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> -v 表示打印出相关的信息 verbose</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> -h 表示打印出安装进度 <span class="built_in">hash</span></span></span><br><span class="line">rpm -ivh httpd-2.2.15-15.el6.centos.1.x86_64.rpm</span><br></pre></td></tr></table></figure>
+<p>升级一个已经安装过的软件包，到更新的版本。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> -U 如果该软件没有安装过则直接安装，若已安装则升级到最新版本</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> -F 必须安装过较低版本的软件，才能执行升级</span></span><br><span class="line">rpm -Uvh httpd-2.2.15-15.el6.centos.1.x86_64.rpm</span><br><span class="line">rpm -Fvh httpd-2.2.15-15.el6.centos.1.x86_64.rpm</span><br></pre></td></tr></table></figure>
+<p>删除已安装的软件包。如果有别的软件包依赖它，则需要先把别的软件包移除。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> -e 代表 erase</span></span><br><span class="line">rpm -e httpd-2.2.15-15.el6.centos.1.x86_64.rpm</span><br></pre></td></tr></table></figure>
+<p>查询软件包是否已经安装过</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -q httpd</span><br></pre></td></tr></table></figure>
+<p>查询系统上所有安装过的软件包，会得到一个特别长的列表，通常会搭配 grep 进行过滤。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -qa</span><br></pre></td></tr></table></figure>
+<p>查询某个包的详细信息，会列出这个包的功能说明，版本，架构等信息。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -qi httpd</span><br></pre></td></tr></table></figure>
+<p>查询某个包的所有安装文件, 会将安装这个包时所有添加的文件及路径都列出来</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -ql httpd</span><br></pre></td></tr></table></figure>
+<p>查询某个文件属于哪个包</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -qf filename</span><br></pre></td></tr></table></figure>
+<p>查询某个包依赖的软件包，包括动态链接库，文件等</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -qR httpd</span><br></pre></td></tr></table></figure>
+<p>如果系统的软件数据库损坏（如安装过程中掉电等），可以通过重建的形式来修复。</p>
+<p>首先需要将已有的数据库删除：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -f /var/lib/rpm/_db.*</span><br></pre></td></tr></table></figure>
+<p>然后通过以下命令进行重建</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -rebuilddb</span><br></pre></td></tr></table></figure>
+<h4 id="yum-dnf">yum / dnf</h4>
+<p>首先是源的操作，配置源的启用/停用，以及增加新源，建议直接修改配置文件来完成。<br>
+另外，下面的命令使用 yum / dnf 均可，以下均以 yum 示例。</p>
+<p>查看源的列表（所有配置文件中，不论启用与否）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum repolist all</span><br></pre></td></tr></table></figure>
+<p>查看所有已经启用的源</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum repolist enabled</span><br></pre></td></tr></table></figure>
+<p>查看所有禁用的源</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum repolist disabled</span><br></pre></td></tr></table></figure>
+<p>接下来是软件组的操作，软件组的操作不是很常用。</p>
+<p>显示所有的软件组</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum grouplist</span><br></pre></td></tr></table></figure>
+<p>查看某个软件组的信息</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum groupinfo groupname</span><br></pre></td></tr></table></figure>
+<p>安装软件组</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum groupinstall "Web Server"</span><br></pre></td></tr></table></figure>
+<p>移除软件组</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum groupremove "Web Server"</span><br></pre></td></tr></table></figure>
+<p>最后是最常用的包的操作</p>
+<p>显示所有可用的包的列表</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum list available</span><br></pre></td></tr></table></figure>
+<p>搜索软件包</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum search package-keyword</span><br></pre></td></tr></table></figure>
+<p>显示可供更新的软件包列表</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum list updates</span><br><span class="line"><span class="meta">#</span><span class="bash"> 或 </span></span><br><span class="line">yum check-update</span><br></pre></td></tr></table></figure>
+<p>安装软件包</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y packagename</span><br></pre></td></tr></table></figure>
+<p>删除软件包。需要注意：<strong>它会移除所有与这个包有依赖关系的包</strong>，即使这些包是系统运行必备的软件包，也会被移除掉。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum remove packagename</span><br></pre></td></tr></table></figure>
+<h4 id="编译安装的典型过程">编译安装的典型过程</h4>
+<p>虽然不常用，但是有时无法在合适的源中找到需要的软件包，或者要安装特定版本的软件包，再或者需要定制一些软件包的功能，则需要自己动手手动来编译安装了。不同的软件包编译安装的过程可能不同，但总体流程大概如下，可以参照随源码提供的 README 或 INSTALL 文件。</p>
+<ol>
+<li>下载源码包并解压。源码包一般为 <code>.tar.gz</code> 或 <code>.tar.bz2</code> 后缀。</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf httpd-2.2.9.tar.gz</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>运行 configure ，进行安装前的检查与配置，并生成 Makefile 文件，可以先运行 <code>./configure --help</code> 选项，查看可供配置的项</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./configure --prefix=...</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>编译，按照 Makefile 文件中配置的默认目标，将源码编译为可执行文件</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>安装，将可执行文件放置在正确的位置</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make install</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>清除编译过程中产生的中间文件</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make claen</span><br></pre></td></tr></table></figure>
+<p>EOF</p>
+
+</div>
+
+
+  <div class="book-comments">
+    
+
+
+
+
+  </div>
+
+
+<script src="/js/book-post.js"></script>
+
+        </div>
+      </div>
+
+      <div class="column col-2 hide-lg">
+        <div class="book-toc">
+  <div class="book-tocbot">
+  </div>
+  <div class="book-tocbot-menu">
+    <a class="book-toc-expand" onclick="expand_toc()">Expand all</a>
+    <a onclick="go_top()">Back to top</a>
+    <a onclick="go_bottom()">Go to bottom</a>
+  </div>
+</div>
+
+<script>
+tocbot.init({
+  tocSelector: '.book-tocbot',
+  contentSelector: '.book-post',
+  headingSelector: 'h1, h2, h3, h4, h5',
+  collapseDepth: 2,
+  orderedList: false,
+  scrollSmooth: false,
+});
+
+function expand_toc(){
+  var b = document.querySelector(".book-toc-expand");
+  tocbot.init({
+    tocSelector: '.book-tocbot',
+    contentSelector: '.book-post',
+    headingSelector: 'h1, h2, h3, h4, h5',
+    collapseDepth: 6,
+    orderedList: false,
+    scrollSmooth: false,
+  });
+  b.setAttribute("onclick", "collapse_toc()");
+  b.innerHTML = "Collapse all"
+}
+
+function collapse_toc(){
+  var b = document.querySelector(".book-toc-expand");
+  tocbot.init({
+    tocSelector: '.book-tocbot',
+    contentSelector: '.book-post',
+    headingSelector: 'h1, h2, h3, h4, h5',
+    collapseDepth: 2,
+    orderedList: false,
+    scrollSmooth: false,
+  });
+  b.setAttribute("onclick", "expand_toc()");
+  b.innerHTML = "Expand all"
+}
+
+function go_top() {
+  window.scrollTo(0, 0);
+}
+
+function go_bottom() {
+  window.scrollTo(0, document.body.scrollHeight);
+}
+
+</script>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
